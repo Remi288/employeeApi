@@ -24,8 +24,10 @@ jobs:
     - name: Lint with flake8
       run: |
         pip install flake8
-        
+
     - name: Django Test
+      env:
+        SECRET_KEY : x&fn-qus1+5e%@b88s1w#y7nwf25s-q*cfadf=7ym9r35zy#k*
       run: |
         python3 manage.py test
 
