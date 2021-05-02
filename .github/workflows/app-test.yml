@@ -35,7 +35,7 @@ jobs:
       env:
         SECRET_KEY : x&fn-qus1+5e%@b88s1w#y7nwf25s-q*cfadf=7ym9r35zy#k*
         JWT_SECRET_KEY : JWT-SECRET_KEYJWT-SECRET_KEYJWT-SECRET_KEYJWT-SECRET_KEY
-        DATABASE_URL : postgres://slnyvlqp:VwR9nd-EDEi0e-GkeeetJltyH7Je43-y@queenie.db.elephantsql.com:5432/slnyvlqp
+        DATABASE_URL : kkjhhgfddewssswww
       run: |
         python3 manage.py test
 
