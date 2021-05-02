@@ -44,6 +44,12 @@ INSTALLED_APPS = [
     'authentication',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'authentication.backends.JWTAuthentication',
+    )
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -118,6 +124,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+# JWT_SECRET_KEY
+JWT_SECRET_KEY = config('JWT_SECRET_KEY')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

@@ -1,9 +1,12 @@
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.conf import settings
+from django.contrib import auth
+import jwt
 
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, LoginSerializer
 
 
 class RegisterView(GenericAPIView):
@@ -22,3 +25,25 @@ class RegisterView(GenericAPIView):
             return Response(response, status=status_code)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class LoginView(GenericAPIView):
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        data = request.data
+        username = data.get('username', '')
+        password = data.get('password', '')
+        user = auth.authenticate(username=username, password=password)
+
+        if user:
+            auth_token = jwt.encode(
+                {'username': user.username}, settings.JWT_SECRET_KEY)
+
+            serializer = UserSerializer(user)
+
+            data = {
+                'payload': serializer.data,
+                "token": auth_token
+            }
+            return Response(data, status=status.HTTP_200_OK)
+
+        return Response({"message": 'invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
