@@ -77,53 +77,45 @@ class EmployeeView(GenericAPIView):
 
 
 class EmployeeDetailsView(GenericAPIView):
-    '''This uses the Django Apiview 
-    that allows for reuse of common 
-    functionality, and helps us keep our code 
-    DRY.
-
-        "put" Update employee/s details by id
-
-        "delete" Delete employee/s details by id
-
-    '''
 
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = EmployeeSerializer
 
     def put(self, request, employee_id):
-        ''' Update all or partial employee details
-            "transaction": Help to not automatically save a 
-            transaction when part of it fails
+        ''' Update all or partia; employee details
+            "transaction": Help to not automatically save a transaction when part of it fails
 
         '''
 
         # update employee using with employee_id
 
         with transaction.atomic():
-            employee = Employee.objects.get(employee_id=employee_id)
-            employee_data = request.data
-            first_name = employee_data.get("first_name").title()
-            last_name = employee_data.get("last_name").title()
-            age = employee_data.get("age")
-            data = {**employee_data, "first_name": first_name,
-                    "last_name": last_name, "age": age}
-            serializer = EmployeeSerializer(
-                instance=employee, data=data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-            else:
-                return Response({"message": "failure to update employee details", "error": serializer.errors},
+            try:
+                employee = Employee.objects.get(employee_id=employee_id)
+                employee_data = request.data
+                first_name = employee_data.get("first_name").title()
+                last_name = employee_data.get("last_name").title()
+                age = employee_data.get("age")
+                data = {**employee_data, "first_name": first_name,
+                        "last_name": last_name, "age": age}
+                serializer = EmployeeSerializer(
+                    instance=employee, data=data, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                else:
+                    return Response({"message": "failure to update employee details", "error": serializer.errors},
 
-                                status=status.HTTP_400_BAD_REQUEST)
-            status_code = status.HTTP_200_OK
-            response = {
-                "success": True,
-                "statusCode": status_code,
-                "message": "Employee details updated successfully",
-                "payload": serializer.data
-            }
-            return Response(response, status=status_code)
+                                    status=status.HTTP_400_BAD_REQUEST)
+                status_code = status.HTTP_200_OK
+                response = {
+                    "success": True,
+                    "statusCode": status_code,
+                    "message": "Employee details updated successfully",
+                    "payload": serializer.data
+                }
+                return Response(response, status=status_code)
+            except ObjectDoesNotExist:
+                return Response({"message": "Employee does not exist"})
 
     def delete(self, request, employee_id):
         ''' This delete employee details with employee_id
@@ -137,5 +129,3 @@ class EmployeeDetailsView(GenericAPIView):
             return Response({"message": "Employee does not exist"})
         else:
             return Response({"message": "Employee has been deleted successfully."}, status=204)
-
-
