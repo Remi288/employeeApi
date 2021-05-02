@@ -29,6 +29,7 @@ jobs:
       env:
         SECRET_KEY : x&fn-qus1+5e%@b88s1w#y7nwf25s-q*cfadf=7ym9r35zy#k*
         JWT_SECRET_KEY : JWT-SECRET_KEYJWT-SECRET_KEYJWT-SECRET_KEYJWT-SECRET_KEY
+        DATABASE_URL : postgres://snnrsnikpswlfq:d792ac87ecf5e92c9c8adb03fc5007922afd850a325c34d2290d8782e09f267f@ec2-52-87-107-83.compute-1.amazonaws.com:5432/dcajqlhbjoknl4
       run: |
         python3 manage.py test
 
