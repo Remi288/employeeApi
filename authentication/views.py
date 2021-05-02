@@ -10,6 +10,10 @@ from .serializers import UserSerializer, LoginSerializer
 
 
 class RegisterView(GenericAPIView):
+    '''This register new users for
+        authentication
+
+    '''
     serializer_class = UserSerializer
 
     def post(self, request):
@@ -26,6 +30,12 @@ class RegisterView(GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(GenericAPIView):
+
+    '''This login register user and generate
+        "token" for authentication
+
+
+    '''
     serializer_class = LoginSerializer
 
     def post(self, request):
