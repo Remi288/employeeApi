@@ -1,7 +1,7 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 from .models import Employee
 
-class EmployeeSerializer(ModelSerializer):
+class EmployeeSerializer(serializers.ModelSerializer):
 
         class Meta:
             model = Employee
