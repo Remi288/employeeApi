@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import sys
 from decouple import config
 from datetime import timedelta
 import dj_database_url
@@ -88,6 +89,8 @@ WSGI_APPLICATION = 'employeeapi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
+
 if DEBUG:
     DATABASES = {
             'default': {
@@ -104,6 +107,8 @@ else:
         }
     }
 
+if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 
 # Password validation
